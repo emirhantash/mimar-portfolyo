@@ -1,0 +1,33 @@
+{
+  "name": "mimar-portfolyo-backend",
+  "version": "1.0.0",
+  "description": "Mimarlık Portfolyo Sitesi Backend API",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "prisma": "^5.7.1",
+    "@prisma/client": "^5.7.1",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "keywords": ["architecture", "portfolio", "api", "express", "prisma"],
+  "author": "Emirhan Taş",
+  "license": "MIT"
+} 
