@@ -1,74 +1,52 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
-import { MapPin, Calendar, Filter } from 'lucide-react';
+import { MapPin, Calendar, Filter, Loader2 } from 'lucide-react';
+import { getProjects, Project } from '../../src/api';
 
-const allProjects = [
-  {
-    id: 1,
-    title: 'Modern Villa Projesi',
-    location: 'İstanbul, Beykoz',
-    year: '2024',
-    category: 'Konut',
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Minimalist tasarım anlayışı ile doğa ile iç içe modern villa tasarımı.'
-  },
-  {
-    id: 2,
-    title: 'Kurumsal Ofis Binası',
-    location: 'İstanbul, Levent',
-    year: '2023',
-    category: 'Ticari',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Sürdürülebilir mimarlık ilkeleri ile tasarlanan çok katlı ofis kompleksi.'
-  },
-  {
-    id: 3,
-    title: 'Boutique Otel',
-    location: 'Antalya, Kaleiçi',
-    year: '2023',
-    category: 'Turizm',
-    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Tarihi doku ile modern konforun buluştuğu butik otel tasarımı.'
-  },
-  {
-    id: 4,
-    title: 'Apartman Kompleksi',
-    location: 'Ankara, Çankaya',
-    year: '2023',
-    category: 'Konut',
-    image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Şehir merkezinde lüks yaşam alanları ile modern apartman kompleksi.'
-  },
-  {
-    id: 5,
-    title: 'Alışveriş Merkezi',
-    location: 'İzmir, Bornova',
-    year: '2022',
-    category: 'Ticari',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Modern perakende mimarisi ile tasarlanan alışveriş ve eğlence merkezi.'
-  },
-  {
-    id: 6,
-    title: 'Kültür Merkezi',
-    location: 'İstanbul, Kadıköy',
-    year: '2022',
-    category: 'Kamu',
-    image: 'https://images.unsplash.com/photo-1503387837-b154d5074bd2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Sanat ve kültür etkinlikleri için tasarlanan çok fonksiyonlu kültür merkezi.'
-  }
-];
-
-const categories = ['Tümü', 'Konut', 'Ticari', 'Turizm', 'Kamu'];
+// Yedek projeler kaldırıldı - API çağrısını test etmek için
+// API bağlantısı başarısız olursa boş dizi kullanılacak
 
 export function ProjectsPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('Tümü');
+  const [categories, setCategories] = useState<string[]>(['Tümü']);
+
+  // Veritabanından projeleri çek
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        setLoading(true);
+        const data = await getProjects();
+        setProjects(data);
+        
+        // Kategorileri dinamik olarak ayarla
+        const uniqueCategories = Array.from(
+          new Set(data.map(project => project.category))
+        );
+        setCategories(['Tümü', ...uniqueCategories]);
+        
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching projects:', err);
+        setError('Projeler yüklenirken bir hata oluştu. API bağlantısını kontrol edin.');
+        setProjects([]);
+        // Yedek kategoriler de kaldırıldı, sadece 'Tümü' kalsın
+        setCategories(['Tümü']);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProjects();
+  }, []);
 
   const filteredProjects = selectedCategory === 'Tümü' 
-    ? allProjects 
-    : allProjects.filter(project => project.category === selectedCategory);
+    ? projects 
+    : projects.filter(project => project.category === selectedCategory);
 
   return (
     <div className="py-20">
@@ -83,27 +61,39 @@ export function ProjectsPage() {
           </p>
         </div>
 
-        {/* Filtre */}
-        <div className="flex items-center justify-center mb-12">
-          <div className="flex items-center space-x-2 bg-gray-100 p-1 rounded-lg">
-            <Filter size={16} className="text-gray-500 ml-2" />
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setSelectedCategory(category)}
-                className="px-4"
-              >
-                {category}
-              </Button>
-            ))}
+        {loading && (
+          <div className="flex justify-center items-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
-        </div>
+        )}
 
-        {/* Projeler Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
+        {error && !loading && (
+          <div className="text-center text-red-500 mb-8">{error}</div>
+        )}
+
+        {!loading && !error && (
+          <>
+            {/* Filtre */}
+            <div className="flex items-center justify-center mb-12">
+              <div className="flex flex-wrap items-center gap-2 bg-gray-100 p-1 rounded-lg">
+                <Filter size={16} className="text-gray-500 ml-2" />
+                {categories.map((category) => (
+                  <Button
+                    key={category}
+                    variant={selectedCategory === category ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setSelectedCategory(category)}
+                    className="px-4"
+                  >
+                    {category}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Projeler Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProjects.map((project) => (
             <Card key={project.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
               <div className="aspect-[4/3] overflow-hidden">
                 <ImageWithFallback
@@ -135,14 +125,16 @@ export function ProjectsPage() {
                 </Button>
               </CardContent>
             </Card>
-          ))}
-        </div>
+              ))}
+            </div>
 
-        {/* Boş durum */}
-        {filteredProjects.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500">Bu kategoride henüz proje bulunmamaktadır.</p>
-          </div>
+            {/* Boş durum */}
+            {filteredProjects.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-gray-500">Bu kategoride henüz proje bulunmamaktadır.</p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
