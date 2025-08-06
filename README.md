@@ -79,4 +79,4 @@ Modern ve profesyonel bir mimarlık portfolyo web sitesi. React, TypeScript, Tai
 
 ## Lisans
 
-MIT
+Apache-2.0 license
