@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Admin CSS dosyasını içe aktarıyoruz */
+@import '../admin/styles/admin.css';
+
 :root {
   --background: #ffffff;
   --foreground: #030213;

@@ -142,6 +142,17 @@ export interface ContactFormData {
   message: string;
 }
 
+export interface ContactMessage {
+  name: string;
+  email: string;
+  subject?: string;
+  message: string;
+  isRead: boolean;
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+}
+
 export function sendContactForm(data: ContactFormData) {
   return apiFetch<{ success: boolean; message: string }>('/contact', {
     method: 'POST',

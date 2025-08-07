@@ -1,0 +1,162 @@
+/* Admin Panel Özel Stilleri */
+
+@layer components {
+  /* Kart Stilleri */
+  .admin-card {
+    @apply bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden transition-all hover:shadow-lg;
+  }
+
+  /* Form Elemanları */
+  .admin-input {
+    @apply border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all;
+  }
+  
+  /* İstatistik Stilleri */
+  .admin-stat-label {
+    @apply text-sm font-medium text-gray-500;
+  }
+  
+  .admin-stat-value {
+    @apply text-3xl font-bold;
+  }
+  
+  .admin-stat-icon {
+    @apply p-3 rounded-full bg-primary/10 text-primary;
+  }
+  
+  /* Başlık Stilleri */
+  .admin-section-title {
+    @apply text-xl font-semibold text-gray-700;
+  }
+  
+  /* Aksiyon Butonları */
+  .admin-action-button {
+    @apply p-4 bg-gray-100 hover:bg-gray-200 rounded-lg text-center transition-all shadow-sm hover:shadow-md;
+  }
+
+.admin-textarea {
+  @apply border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none;
+}
+
+.admin-select {
+  @apply w-full h-10 px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all;
+}
+
+.admin-checkbox {
+  @apply text-primary rounded focus:ring-primary focus:ring-offset-0;
+}
+
+/* Butonlar */
+.admin-button-primary {
+  @apply bg-primary text-white rounded-md px-4 py-2 hover:bg-primary/90 transition-all shadow-md hover:shadow-lg;
+}
+
+.admin-button-secondary {
+  @apply bg-white text-primary border border-primary rounded-md px-4 py-2 hover:bg-gray-50 transition-all;
+}
+
+.admin-button-danger {
+  @apply bg-white text-red-600 border border-red-200 rounded-md px-4 py-2 hover:bg-red-50 transition-all;
+}
+
+/* Eylem Butonları */
+.admin-action-button {
+  @apply inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white rounded-md shadow-md transition-all hover:shadow-lg px-4 py-2;
+}
+
+/* Tablolar */
+.admin-table {
+  @apply w-full border-collapse;
+}
+
+.admin-table th {
+  @apply text-left p-3 bg-gray-50 text-gray-600 text-sm font-medium border-b border-gray-200;
+}
+
+.admin-table td {
+  @apply p-3 border-b border-gray-100 text-gray-700;
+}
+
+.admin-table tr:hover {
+  @apply bg-gray-50;
+}
+
+/* Başlıklar */
+.admin-heading {
+  @apply text-3xl font-bold mb-6 text-primary;
+}
+
+.admin-subheading {
+  @apply text-xl font-semibold mb-4 text-gray-700;
+}
+
+/* Dashboard Widget Kartları */
+.admin-stat-card {
+  @apply bg-white rounded-lg shadow-md border border-gray-100 p-6 transition-all hover:shadow-lg;
+}
+
+.admin-stat-card-icon {
+  @apply p-3 rounded-full bg-primary/10 text-primary;
+}
+
+.admin-stat-card-title {
+  @apply text-sm font-medium text-gray-500;
+}
+
+.admin-stat-card-value {
+  @apply text-3xl font-bold;
+}
+
+/* Filtreleme Alanı */
+.admin-filter-section {
+  @apply bg-white rounded-lg shadow-md border border-gray-100 p-6 mb-6;
+}
+
+/* Yükleniyor Durumu */
+.admin-loading {
+  @apply flex justify-center py-12;
+}
+
+.admin-spinner {
+  @apply h-8 w-8 animate-spin text-primary;
+}
+
+/* Boş Durum */
+.admin-empty-state {
+  @apply p-6 text-center text-gray-500;
+}
+
+/* Form Grupları */
+.admin-form-group {
+  @apply space-y-2;
+}
+
+/* Form Grid */
+.admin-form-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+/* Form Etiketleri */
+.admin-form-label {
+  @apply font-medium text-gray-700;
+}
+
+/* Hata Mesajları */
+.admin-error-message {
+  @apply p-3 text-sm bg-red-50 border border-red-200 text-red-600 rounded-md;
+}
+
+/* Başarı Mesajları */
+.admin-success-message {
+  @apply p-3 text-sm bg-green-50 border border-green-200 text-green-600 rounded-md;
+}
+
+/* Modal İçerikleri */
+.admin-modal-content {
+  @apply sm:max-w-[600px] max-h-[90vh] overflow-y-auto;
+}
+
+/* Modal Footer */
+.admin-modal-footer {
+  @apply flex justify-end space-x-2;
+}
